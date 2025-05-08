@@ -1,34 +1,26 @@
-// UserAdapter.kt
+// FavoriteUserAdapter.kt
 package com.example.machinetest.AdptersAndDataModule.Adpters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.machinetest.AdptersAndDataModule.data.Data
-import com.example.machinetest.AdptersAndDataModule.localstorage.AppDatabase
+import com.example.machinetest.AdptersAndDataModule.localstorage.UserEntity
 import com.example.machinetest.R
-
 import com.example.machinetest.databinding.ItemuserlistBinding
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
 
-class UserAdapter(
-    private val database: AppDatabase,
-    private val onFavoriteClick: (Data) -> Unit
-) : PagingDataAdapter<Data, UserAdapter.UserViewHolder>(UserDiffCallback()) {
+class FavoriteUserAdapter(
+    private val onFavoriteClick: (UserEntity) -> Unit
+) : ListAdapter<UserEntity, FavoriteUserAdapter.UserViewHolder>(UserDiffCallback()) {
 
     class UserViewHolder(private val binding: ItemuserlistBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(user: Data?, database: AppDatabase, onFavoriteClick: (Data) -> Unit) {
-            user ?: return
+        fun bind(user: UserEntity, onFavoriteClick: (UserEntity) -> Unit) {
             try {
-                binding.name.text = "${user.first_name} ${user.last_name}"
+                binding.name.text = "${user.firstName} ${user.lastName}"
                 binding.email.text = user.email
 
-                // Load avatar using Glide
                 if (user.avatar.isNotEmpty()) {
                     Glide.with(binding.avatar.context)
                         .load(user.avatar)
@@ -40,17 +32,10 @@ class UserAdapter(
                     binding.avatar.setImageResource(android.R.drawable.ic_menu_report_image)
                 }
 
-                // Check favorite status from Room
-                val isFavorite = runBlocking {
-                    withContext(Dispatchers.IO) {
-                        database.userDao().getUserById(user.id)?.isFavorite ?: false
-                    }
-                }
                 binding.favorite.setImageResource(
-                    if (isFavorite) R.drawable.heart else R.drawable.heart_for_at3
+                    if (user.isFavorite) R.drawable.heart else R.drawable.heart_for_at3
                 )
 
-                // Handle favorite click
                 binding.favorite.setOnClickListener {
                     onFavoriteClick(user)
                 }
@@ -69,20 +54,15 @@ class UserAdapter(
     }
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
-        try {
-            val user = getItem(position)
-            holder.bind(user, database, onFavoriteClick)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+        holder.bind(getItem(position), onFavoriteClick)
     }
 
-    class UserDiffCallback : DiffUtil.ItemCallback<Data>() {
-        override fun areItemsTheSame(oldItem: Data, newItem: Data): Boolean {
+    class UserDiffCallback : DiffUtil.ItemCallback<UserEntity>() {
+        override fun areItemsTheSame(oldItem: UserEntity, newItem: UserEntity): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: Data, newItem: Data): Boolean {
+        override fun areContentsTheSame(oldItem: UserEntity, newItem: UserEntity): Boolean {
             return oldItem == newItem
         }
     }

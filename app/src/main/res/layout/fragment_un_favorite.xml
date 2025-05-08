@@ -5,10 +5,27 @@
     android:layout_height="match_parent"
     tools:context=".Fragmets.UnFavoriteFragment">
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView_unFac"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:listitem="@layout/itemuserlist" />
+
+    <TextView
+        android:id="@+id/errorText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="Koi unfavorite user nahi mila"
+        android:textColor="@color/red"
+        android:textSize="16sp"
+        android:visibility="gone" />
 
 </FrameLayout>

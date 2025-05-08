@@ -5,13 +5,17 @@ import com.example.machinetest.AdptersAndDataModule.data.Data
 import retrofit2.HttpException
 import java.io.IOException
 
+
 class UserPagingSource(private val apiService: ApiService) : PagingSource<Int, Data>() {
+
+    var onDataLoaded: (suspend (List<Data>) -> Unit)? = null
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Data> {
         return try {
             val page = params.key ?: 1
             val response = apiService.getUsers(page)
             val users = response.data
+            onDataLoaded?.invoke(users) // Suspend function call
 
             LoadResult.Page(
                 data = users,

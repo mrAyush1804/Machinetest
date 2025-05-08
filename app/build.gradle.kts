@@ -52,20 +52,24 @@ dependencies {
     implementation(libs.androidx.paging.common.android)
     implementation(libs.androidx.leanback.paging)
     implementation(libs.androidx.paging.runtime.ktx)
+    implementation(libs.androidx.room.runtime.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    implementation ("com.google.android.material:material:1.9.0")
-    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation ("com.github.bumptech.glide:glide:4.12.0")
-    implementation ("androidx.recyclerview:recyclerview:1.2.1")
+        implementation ("com.google.android.material:material:1.9.0")
+        implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+        implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+        implementation ("com.github.bumptech.glide:glide:4.12.0")
+        implementation ("androidx.recyclerview:recyclerview:1.2.1")
 
 
-    implementation("com.google.dagger:hilt-android:2.51.1")
-    kapt("com.google.dagger:hilt-android-compiler:2.51.1")
+        implementation("com.google.dagger:hilt-android:2.51.1")
+        kapt("com.google.dagger:hilt-android-compiler:2.51.1")
+
+
+        implementation ("org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.9.0")
 
 
 
-}
+    }

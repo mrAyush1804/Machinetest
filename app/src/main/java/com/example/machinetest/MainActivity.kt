@@ -9,8 +9,8 @@ import androidx.navigation.NavGraph
 import androidx.navigation.createGraph
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.fragment
-import com.example.machinetest.Fragmets.FavFragmnet
-import com.example.machinetest.Fragmets.FragmentUserlist
+import com.example.machinetest.Fragments.FavoriteFragment
+import com.example.machinetest.Fragments.FragmentUserlist
 import com.example.machinetest.Fragmets.UnFavoriteFragment
 import com.example.machinetest.Navitionmodule.Routedetination
 
@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity() {
         return try {
             navController?.createGraph(startDestination = startDestination.route) {
                 fragment<FragmentUserlist>(Routedetination.FragmentUserlist.route)
-                fragment<FavFragmnet>(Routedetination.FragmentFavorite.route)
+                fragment<FavoriteFragment>(Routedetination.FragmentFavorite.route)
                 fragment<UnFavoriteFragment>(Routedetination.FragmentUnFavorite.route)
             } ?: run {
                 Log.e(TAG, "NavController null h")

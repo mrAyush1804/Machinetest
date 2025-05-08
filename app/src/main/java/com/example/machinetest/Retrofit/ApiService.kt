@@ -1,6 +1,5 @@
 package com.example.machinetest.Retrofit
-
-import com.example.machinetest.AdptersAndDataModule.User
+import com.example.machinetest.AdptersAndDataModule.data.User
 import retrofit2.http.GET
 import retrofit2.http.Query
 

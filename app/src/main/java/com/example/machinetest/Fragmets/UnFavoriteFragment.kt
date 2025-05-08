@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import com.example.machinetest.databinding.FragmentUnFavoriteBinding
 
 class UnFavoriteFragment : Fragment() {
-
+    // Step 1: Binding variables declare karein
     private var _binding: FragmentUnFavoriteBinding? = null
     private val binding get() = _binding!!
 
@@ -28,7 +28,7 @@ class UnFavoriteFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
+        // Step 2: Binding initialize karein
         _binding = FragmentUnFavoriteBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -36,7 +36,8 @@ class UnFavoriteFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
+        // Step 3: Yahan par views ko access kar sakte hain
+        // Example: binding.textView.text = param1 ?: "Default Text"
     }
 
     override fun onDestroyView() {

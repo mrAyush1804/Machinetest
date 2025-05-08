@@ -3,9 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragmets.FavFragmnet"
+    tools:context=".Fragmets.FavoriteFragment"
     android:orientation="vertical">
 
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -13,5 +20,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:listitem="@layout/itemuserlist"/>
+
+
+    <TextView
+        android:id="@+id/errorText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="Koi favorite user nahi mila"
+        android:textColor="@color/red"
+        android:textSize="16sp"
+        android:visibility="gone" />
+
 
 </LinearLayout>
