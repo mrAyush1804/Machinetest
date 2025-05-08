@@ -44,7 +44,7 @@ class UserAdapter(
                     binding.avatar.setImageResource(android.R.drawable.ic_menu_report_image)
                 }
 
-                // Check favorite status from Room
+
                 var isFavorite = runBlocking {
                     withContext(Dispatchers.IO) {
                         database.userDao().getUserById(user.id)?.isFavorite ?: false
@@ -54,7 +54,7 @@ class UserAdapter(
                     if (isFavorite) R.drawable.heart else R.drawable.heart_for_at3
                 )
 
-                // Handle favorite click
+
                 binding.favorite.setOnClickListener {
                     runBlocking {
                         withContext(Dispatchers.IO) {
@@ -71,7 +71,7 @@ class UserAdapter(
                         }
                         isFavorite = !isFavorite
                         binding.favorite.setImageResource(
-                            if (isFavorite) R.drawable.heart else R.drawable.heart_for_at3
+                            if (isFavorite) R.drawable.heart_for_at3 else R.drawable.heart
                         )
                         Toast.makeText(binding.root.context, "Favorite $isFavorite", Toast.LENGTH_SHORT).show()
                         onFavoriteClick(user)
