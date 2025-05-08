@@ -17,9 +17,20 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class UserRepository(private val database: AppDatabase) {
 
+    private val okHttpClient = okhttp3.OkHttpClient.Builder()
+        .addInterceptor { chain ->
+            val request = chain.request().newBuilder()
+                .addHeader("x-api-key", "reqres-free-v1")
+                .build()
+            chain.proceed(request)
+        }
+        .build()
+
+
     private val apiService: ApiService by lazy {
         Retrofit.Builder()
             .baseUrl("https://reqres.in/")
+            .client(okHttpClient) // 👈 add this line
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(ApiService::class.java)
