@@ -70,6 +70,7 @@ dependencies {
 
         implementation ("org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.9.0")
 
+         kapt("androidx.room:room-compiler:2.7.1") // Or the same version as your Room runtime
 
 
     }
