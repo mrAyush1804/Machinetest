@@ -31,13 +31,13 @@ class MainActivity : AppCompatActivity() {
             val navHostFragment = supportFragmentManager
                 .findFragmentById(R.id.nav_host_fragment) as? NavHostFragment
             if (navHostFragment == null) {
-                Log.e(TAG, "NavHostFragment nahi mila, check karo activity_main.xml mein R.id.nav_host_fragment")
+                Log.e(TAG, "NavHostFragment are not found ")
                 return
             }
 
             navController = navHostFragment.navController
             if (navController == null) {
-                Log.e(TAG, "NavController null hai, navigation setup fail")
+                Log.e(TAG, "NavController are not found ")
                 return
             }
 
@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity() {
                     label = "Fav List"
                 }
             } ?: run {
-                Log.e(TAG, "NavController null hai graph create karte waqt")
+                Log.e(TAG, "NavController null h")
                 throw IllegalStateException("NavController null")
             }
         } catch (e: Exception) {
