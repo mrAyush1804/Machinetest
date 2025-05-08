@@ -17,6 +17,7 @@ import com.example.machinetest.AdptersAndDataModule.data.Data
 
 import com.example.machinetest.AdptersAndDataModule.localstorage.AppDatabase
 import com.example.machinetest.AdptersAndDataModule.localstorage.UserEntity
+import com.example.machinetest.Navitionmodule.Routedetination
 import com.example.machinetest.R
 
 import com.example.machinetest.databinding.FragmentUserlistBinding
@@ -56,10 +57,10 @@ class FragmentUserlist : Fragment() {
 
     private fun setupRecyclerView() {
         userAdapter = UserAdapter(database) { data ->
-            // Heart icon click pe favorite toggle karo
+
             lifecycleScope.launch {
                 withContext(Dispatchers.IO) {
-                    // Data ko UserEntity mein convert karo
+
                     val userEntity = UserEntity(
                         id = data.id,
                         email = data.email,
@@ -125,12 +126,12 @@ class FragmentUserlist : Fragment() {
 
     private fun setupNavigation() {
         binding.btnFavorite.setOnClickListener {
-            findNavController().navigate(R.id.nav_host_fragment)
+            findNavController().navigate(Routedetination.FragmentFavorite.route)
         }
         binding.btnUnfavorite.setOnClickListener {
             Toast.makeText(context, "Unfavorite abhi implement nahi hua", Toast.LENGTH_SHORT).show()
-            // Agar UnFavoriteFragment implement karna hai, to yahan navigation add karo
-            // findNavController().navigate(R.id.action_userlist_to_unfavorite)
+
+             findNavController().navigate(Routedetination.FragmentUnFavorite.route)
         }
     }
 
