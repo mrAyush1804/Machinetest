@@ -11,6 +11,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.fragment
 import com.example.machinetest.Fragmets.FavFragmnet
 import com.example.machinetest.Fragmets.FragmentUserlist
+import com.example.machinetest.Fragmets.UnFavoriteFragment
 import com.example.machinetest.Navitionmodule.Routedetination
 
 class MainActivity : AppCompatActivity() {
@@ -52,12 +53,9 @@ class MainActivity : AppCompatActivity() {
     private fun createGraph(startDestination: Routedetination): NavGraph {
         return try {
             navController?.createGraph(startDestination = startDestination.route) {
-                fragment<FragmentUserlist>(Routedetination.FragmentUserlist.route) {
-                    label = "User List"
-                }
-                fragment<FavFragmnet>(Routedetination.FragmentFavorite.route) {
-                    label = "Fav List"
-                }
+                fragment<FragmentUserlist>(Routedetination.FragmentUserlist.route)
+                fragment<FavFragmnet>(Routedetination.FragmentFavorite.route)
+                fragment<UnFavoriteFragment>(Routedetination.FragmentUnFavorite.route)
             } ?: run {
                 Log.e(TAG, "NavController null h")
                 throw IllegalStateException("NavController null")

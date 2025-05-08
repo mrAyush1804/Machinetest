@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.machinetest.AdptersAndDataModule.Adpters.UserAdapter
 import com.example.machinetest.AdptersAndDataModule.UserRepository
@@ -15,6 +16,7 @@ import com.example.machinetest.databinding.FragmentUserlistBinding
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import androidx.paging.LoadState
+import com.example.machinetest.Navitionmodule.Routedetination
 
 class FragmentUserlist : Fragment() {
 
@@ -44,6 +46,15 @@ class FragmentUserlist : Fragment() {
         binding.recyclerView.apply {
             layoutManager = GridLayoutManager(context, 2)
             adapter = userAdapter
+        }
+
+
+        binding.btnFavorite.setOnClickListener {
+            findNavController().navigate(Routedetination.FragmentFavorite.route)
+        }
+
+        binding.btnUnfavorite.setOnClickListener {
+            findNavController().navigate(Routedetination.FragmentUnFavorite.route)
         }
     }
 
