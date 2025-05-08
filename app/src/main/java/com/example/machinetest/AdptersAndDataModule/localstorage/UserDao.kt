@@ -18,6 +18,9 @@ interface UserDao {
     @Query("SELECT * FROM users WHERE isFavorite = 1")
     suspend fun getFavoriteUsers(): List<UserEntity>
 
+    @Query("SELECT * FROM users WHERE isFavorite = 0")
+    suspend fun getUnFavoriteUsers(): List<UserEntity>
+
     @Query("SELECT * FROM users")
     suspend fun getAllUsers(): List<UserEntity>
 

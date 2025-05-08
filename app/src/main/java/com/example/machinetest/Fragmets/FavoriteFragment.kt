@@ -5,12 +5,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.machinetest.AdptersAndDataModule.Adpters.FavoriteUserAdapter
 import com.example.machinetest.AdptersAndDataModule.UserRepository
 import com.example.machinetest.AdptersAndDataModule.localstorage.AppDatabase
+import com.example.machinetest.Navitionmodule.Routedetination
 import com.example.machinetest.databinding.FragmentFavFragmnetBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -34,6 +38,12 @@ class FavoriteFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // Custom back press handling
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            // Navigate back
+            findNavController().navigate(Routedetination.FragmentUserlist.route)
+        }
 
         // Repository initialize karo
         userRepository = UserRepository(AppDatabase.getDatabase(requireContext()))

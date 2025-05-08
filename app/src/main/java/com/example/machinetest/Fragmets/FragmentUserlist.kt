@@ -129,8 +129,6 @@ class FragmentUserlist : Fragment() {
             findNavController().navigate(Routedetination.FragmentFavorite.route)
         }
         binding.btnUnfavorite.setOnClickListener {
-            Toast.makeText(context, "Unfavorite abhi implement nahi hua", Toast.LENGTH_SHORT).show()
-
              findNavController().navigate(Routedetination.FragmentUnFavorite.route)
         }
     }

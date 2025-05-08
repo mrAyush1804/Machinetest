@@ -75,6 +75,12 @@ class UserRepository(private val database: AppDatabase) {
         }
     }
 
+    suspend fun getUnFavoriteUsers(): List<UserEntity> {
+        return withContext(Dispatchers.IO) {
+            database.userDao().getUnFavoriteUsers()
+        }
+    }
+
     suspend fun getAllUsers(): List<UserEntity> {
         return withContext(Dispatchers.IO) {
             database.userDao().getAllUsers()

@@ -5,23 +5,26 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.machinetest.AdptersAndDataModule.Adpters.UnFavoriteAdapter
+import com.example.machinetest.AdptersAndDataModule.UserRepository
+import com.example.machinetest.AdptersAndDataModule.localstorage.AppDatabase
+import com.example.machinetest.AdptersAndDataModule.localstorage.UserEntity
+import com.example.machinetest.Navitionmodule.Routedetination
 import com.example.machinetest.databinding.FragmentUnFavoriteBinding
+import kotlinx.coroutines.launch
 
 class UnFavoriteFragment : Fragment() {
     // Step 1: Binding variables declare karein
     private var _binding: FragmentUnFavoriteBinding? = null
     private val binding get() = _binding!!
 
-    private var param1: String? = null
-    private var param2: String? = null
+    private lateinit var repository: UserRepository
+    private lateinit var adapter: UnFavoriteAdapter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,8 +39,19 @@ class UnFavoriteFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Step 3: Yahan par views ko access kar sakte hain
-        // Example: binding.textView.text = param1 ?: "Default Text"
+        val dao = AppDatabase.getDatabase(requireContext()).userDao()
+        repository = UserRepository(AppDatabase.getDatabase(requireContext()))
+
+        binding.recyclerViewUnFav.layoutManager = LinearLayoutManager(requireContext())
+
+        loadUnFavoriteUsers()
+
+        // Custom back press handling
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            // Navigate back
+            findNavController().navigate(Routedetination.FragmentUserlist.route)
+        }
+
     }
 
     override fun onDestroyView() {
@@ -46,17 +60,23 @@ class UnFavoriteFragment : Fragment() {
         super.onDestroyView()
     }
 
-    companion object {
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            UnFavoriteFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    private fun loadUnFavoriteUsers() {
+        lifecycleScope.launch {
+            val unFavUsers = repository.getUnFavoriteUsers()
+            adapter = UnFavoriteAdapter(unFavUsers) { user ->
+                toggleFavorite(user)
             }
+            binding.recyclerViewUnFav.adapter = adapter
+        }
     }
-}
 
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+    private fun toggleFavorite(user: UserEntity) {
+        lifecycleScope.launch {
+            repository.toggleFavorite(user)
+            loadUnFavoriteUsers() // Refresh list
+        }
+    }
+
+
+
+}
