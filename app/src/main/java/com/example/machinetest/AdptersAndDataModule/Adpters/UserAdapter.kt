@@ -3,12 +3,16 @@ package com.example.machinetest.AdptersAndDataModule.Adpters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.machinetest.AdptersAndDataModule.data.Data
+import com.example.machinetest.AdptersAndDataModule.data.User
 import com.example.machinetest.AdptersAndDataModule.localstorage.AppDatabase
+import com.example.machinetest.AdptersAndDataModule.localstorage.UserDao
+import com.example.machinetest.AdptersAndDataModule.localstorage.UserEntity
 import com.example.machinetest.R
 
 import com.example.machinetest.databinding.ItemuserlistBinding
@@ -41,7 +45,7 @@ class UserAdapter(
                 }
 
                 // Check favorite status from Room
-                val isFavorite = runBlocking {
+                var isFavorite = runBlocking {
                     withContext(Dispatchers.IO) {
                         database.userDao().getUserById(user.id)?.isFavorite ?: false
                     }
@@ -52,8 +56,28 @@ class UserAdapter(
 
                 // Handle favorite click
                 binding.favorite.setOnClickListener {
-                    onFavoriteClick(user)
+                    runBlocking {
+                        withContext(Dispatchers.IO) {
+                            val userDao: UserDao = database.userDao()
+                            val updatedUser = UserEntity(
+                                isFavorite = !isFavorite,
+                                id = user.id,
+                                email = user.email,
+                                firstName = user.first_name,
+                                lastName = user.last_name,
+                                avatar = user.avatar
+                            )
+                            userDao.updateUser(updatedUser)
+                        }
+                        isFavorite = !isFavorite
+                        binding.favorite.setImageResource(
+                            if (isFavorite) R.drawable.heart else R.drawable.heart_for_at3
+                        )
+                        Toast.makeText(binding.root.context, "Favorite $isFavorite", Toast.LENGTH_SHORT).show()
+                        onFavoriteClick(user)
+                    }
                 }
+
             } catch (e: Exception) {
                 e.printStackTrace()
                 binding.name.text = "Error"
